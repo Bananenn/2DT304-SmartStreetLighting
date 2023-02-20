@@ -44,6 +44,8 @@ void loop() {
   }
   String req = client.readStringUntil('\n');
   Serial.println(req);
+
+
   client.printf("Hello from Pico-W\r\n");
   client.flush();
 }
