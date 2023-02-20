@@ -1,0 +1,47 @@
+	{
+		"date" : 20230222,
+		"weather" : "cloudy",
+		"temp2m" : {
+			"max" : 1,
+			"min" : -3
+		},
+		"wind10m_max" : 3
+	},
+	{
+		"date" : 20230223,
+		"weather" : "lightrain",
+		"temp2m" : {
+			"max" : 2,
+			"min" : -1
+		},
+		"wind10m_max" : 3
+	},
+	{
+		"date" : 20230224,
+		"weather" : "lightsnow",
+		"temp2m" : {
+			"max" : -1,
+			"min" : -1
+		},
+		"wind10m_max" : 3
+	},
+	{
+		"date" : 20230225,
+		"weather" : "mcloudy",
+		"temp2m" : {
+			"max" : -1,
+			"min" : -4
+		},
+		"wind10m_max" : 3
+	},
+	{
+		"date" : 20230226,
+		"weather" : "clear",
+		"temp2m" : {
+			"max" : -2,
+			"min" : -6
+		},
+		"wind10m_max" : 3
+	}
+	]
+}
