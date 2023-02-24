@@ -6,8 +6,8 @@
 #include <WiFi.h>
 
 #ifndef STASSID
-#define STASSID "your-ssid"
-#define STAPSK "your-password"
+#define STASSID "Skiba"
+#define STAPSK "1223334444"
 #endif
 
 const char* ssid = STASSID;
