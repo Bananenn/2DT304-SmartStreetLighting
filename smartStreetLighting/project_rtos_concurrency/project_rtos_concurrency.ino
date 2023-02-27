@@ -38,52 +38,7 @@ int buttonState = 0;
 int pirState = 0;
 int oldButtonState = LOW;
 int ledState = LOW;
-
-bool isLedTaskRunning = false;
-
-SemaphoreHandle_t xMutex;
-
-void ledTask(void *param) {
-  (void) param;
-
-  // Wait for the mutex to become available
-  xSemaphoreTake(xMutex, portMAX_DELAY);
-
-  digitalWrite(led, HIGH);
-  delay(500);
-  Serial.println(" LED 1 ON");
-
-  digitalWrite(led2, HIGH);
-  delay(500);
-  Serial.println(" LED 2 ON");
-
-  digitalWrite(led3, HIGH);
-  delay(500);
-  Serial.println(" LED 3 ON");
-
-  delay(500);
-
-  digitalWrite(led, LOW);
-  Serial.println(" LED 1 OFF");
-  delay(500);
-
-  digitalWrite(led2, LOW);
-  Serial.println(" LED 2 OFF");
-  delay(500);
-
-  digitalWrite(led3, LOW);
-  Serial.println(" LED 3 OFF");
-  delay(500);
-
-  // Release the mutex
-  xSemaphoreGive(xMutex);
-
-  vTaskDelete(nullptr);
-  Serial.println(isLedTaskRunning);
-
-  isLedTaskRunning = false;
-  Serial.println(isLedTaskRunning);
-}
+int timetoBeON = 0;
 
 
 void setup() {
@@ -92,8 +47,6 @@ void setup() {
 
   Serial.begin(115200);
   pinMode(buttonPin, INPUT);
-
-  xMutex = xSemaphoreCreateMutex();
 
   pinMode(led, OUTPUT);
   pinMode(led2, OUTPUT);
@@ -108,19 +61,21 @@ void loop() {
   int pirState;
 
   pirState = digitalRead(buttonPin);
-  Serial.println(isLedTaskRunning);
   if (pirState == HIGH) {
-    if (xSemaphoreTake(xMutex, 0) == pdTRUE) {
-      xSemaphoreGive(xMutex);
-      isLedTaskRunning = true;
-      xTaskCreate(ledTask, "LED" + i, 128, nullptr, 1, nullptr);
-      i = i + 1;
-      Serial.println(i);
-    } else {
-      Serial.println("LED task already running");
-    }
+    Serial.println(" ** Motion detected");
+    timetoBeON = millis() + 1000;
+  }
+
+  if (timetoBeON > millis()) {
+    digitalWrite(led, HIGH);
+    digitalWrite(led2, HIGH);
+    digitalWrite(led3, HIGH);
+  } else {
+    digitalWrite(led, LOW);
+    digitalWrite(led2, LOW);
+    digitalWrite(led3, LOW);
   }
 
   Serial.println(" - No motion");
-  delay(500);
+  delay(300);
 }
