@@ -38,14 +38,13 @@ void loop() {
   if (!client) {
     return;
   }
-  client.println("Type anything and hit return");
+  client.println("Server skicka skit");
   while (!client.available()) {
     delay(10);
   }
   String req = client.readStringUntil('\n');
-  Serial.println(req);
+  Serial.println(req + " test");
 
-
-  client.printf("Hello from Pico-W\r\n");
   client.flush();
+
 }

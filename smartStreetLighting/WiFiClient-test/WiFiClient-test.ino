@@ -13,8 +13,10 @@
 const char* ssid = STASSID;
 const char* password = STAPSK;
 
-const char* host = "192.168.88.213";
+const char* host = "192.168.88.247";
 const uint16_t port = 4242;
+
+WiFiClient client;
 
 WiFiMulti multi;
 
@@ -40,9 +42,7 @@ void setup() {
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
-}
 
-void loop() {
   static bool wait = false;
 
   Serial.print("connecting to ");
@@ -51,45 +51,69 @@ void loop() {
   Serial.println(port);
 
   // Use WiFiClient class to create TCP connections
-  WiFiClient client;
+  
+
+
+}
+
+void loop() {
+
   if (!client.connect(host, port)) {
     Serial.println("connection failed");
     delay(5000);
     return;
   }
-
-  // This will send a string to the server
-  Serial.println("sending data to server");
+  
   if (client.connected()) {
-    client.println("hello from ESP8266");
+    Serial.println("sending data to server");
+    client.println("Klient skickar skit");
   }
 
-  // wait for data to be available
-  unsigned long timeout = millis();
-  while (client.available() == 0) {
-    if (millis() - timeout > 5000) {
-      Serial.println(">>> Client Timeout !");
-      client.stop();
-      delay(60000);
-      return;
+/*
+  Serial.println("Trying to read data");
+  //if (client.available() != 0) {
+    //Serial.println("Data found");
+    while (client.available()) {
+      char ch = static_cast<char>(client.read());
+      Serial.print(ch);
     }
-  }
+  //}
+*/
+Serial.println("Läs data fan");
+  String req = client.readStringUntil('\n');
+  Serial.println(req + " test");
+  delay(3000);
 
-  // Read all the lines of the reply from server and print them to Serial
-  Serial.println("receiving from remote server");
-  // not testing 'client.connected()' since we do not need to send data here
-  while (client.available()) {
-    char ch = static_cast<char>(client.read());
-    Serial.print(ch);
-  }
+    /*
+    // wait for data to be available
+    unsigned long timeout = millis();
+    while (client.available() == 0) {
+      if (millis() - timeout > 5000) {
+        Serial.println(">>> Client Timeout !");
+        client.stop();
+        delay(60000);
+        return;
+      }
+    }
 
+    // Read all the lines of the reply from server and print them to Serial
+    Serial.println(" --- receiving from remote server");
+    // not testing 'client.connected()' since we do not need to send data here
+    while (client.available()) {
+      char ch = static_cast<char>(client.read());
+      Serial.print(ch);
+    }
+    */
+
+  }
+  /*
   // Close the connection
   Serial.println();
   Serial.println("closing connection");
   client.stop();
 
   if (wait) {
-    delay(300000);  // execute once every 5 minutes, don't flood remote service
+    delay(10000);  // execute once every 5 minutes, don't flood remote service
   }
   wait = true;
-}
+}*/
