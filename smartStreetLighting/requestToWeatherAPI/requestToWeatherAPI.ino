@@ -1,3 +1,4 @@
+
 /*
   Complete project details: https://RandomNerdTutorials.com/esp32-https-requests/
   
@@ -10,6 +11,9 @@
 */
 
 #include <WiFiClientSecure.h>
+#include <iostream>
+#include <string>
+#include <ArduinoJson.h> 
 
 const char* ssid = "Skiba";
 const char* password = "1223334444";
@@ -103,10 +107,32 @@ void setup() {
     }
     // if there are incoming bytes available
     // from the server, read them and print them:
+    std::string outputFromAPI = "";
     while (client.available()) {
       char c = client.read();
-      Serial.write(c);
+      outputFromAPI += c;
     }
+
+// Create a JSON document
+  StaticJsonDocument<1024> doc;
+  
+  // Parse the JSON data
+  DeserializationError error = deserializeJson(doc, outputFromAPI);
+
+  if (error) {
+    Serial.print("deserializeJson() failed: ");
+    Serial.println(error.c_str());
+    return;
+  }
+
+  // Extract the weather state from the JSON data
+  const char* weather = doc["dataseries"][0]["weather"];
+
+  // Print the weather state
+  Serial.print("Weather: ");
+  Serial.println(weather);
+    //Serial.write(outputFromAPI);
+    //Serial.write(std::string("outputFromAPI").find("weather"));
 
     client.stop();
   }
