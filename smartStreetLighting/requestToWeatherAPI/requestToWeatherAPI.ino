@@ -66,7 +66,7 @@ WiFiClientSecure client;
 
 void setup() {
   //Initialize serial and wait for port to open:
-  Serial.begin(115200);
+  Serial.begin(9600);
   delay(100);
 
   Serial.print("Attempting to connect to SSID: ");
@@ -88,7 +88,7 @@ void setup() {
   //client.setPrivateKey(test_client_key);	// for client verification
 
   Serial.println("\nStarting connection to server...");
-  if (!client.connect(server, 443))
+  if (!client.connect(server, 443)) 
     Serial.println("Connection failed!");
   else {
     Serial.println("Connected to server!");
