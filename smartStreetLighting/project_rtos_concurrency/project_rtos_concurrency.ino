@@ -76,6 +76,13 @@ void pir(void *param) {
 
 }
 
+void weatherCheck(void *param){
+  (void) param;
+  while (true) {
+      Serial.println("-------- Checking weather");
+      delay(10000);
+  }
+}
 
 void setup() {
 
@@ -86,9 +93,10 @@ void setup() {
 
   // Serial.begin(115200);
 
-  //xTaskCreate(pir, "PIR", 128, nullptr, 1, nullptr);
+  xTaskCreate(weatherCheck, "weatherCheck", 128, nullptr, 1, nullptr);
+  xTaskCreate(pir, "PIR", 128, nullptr, 1, nullptr);
   //RxTaskCreate(weatherAPI, "TEST", 128, nullptr, 1, nullptr);
-  xTaskCreate(blink, "BLINK", 128, nullptr, 3, nullptr);
+  //xTaskCreate(blink, "BLINK", 128, nullptr, 3, nullptr);
   //xTaskCreate(weatherAPI, "WEATHERAPI", 512, nullptr, 4, nullptr);
 
 }
